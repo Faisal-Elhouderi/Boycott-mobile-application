@@ -1,0 +1,555 @@
+[
+  {
+    "id": "food-beverages",
+    "nameEn": "Food & Beverages",
+    "nameAr": "الطعام والمشروبات",
+    "icon": "🍽️",
+    "parentId": null,
+    "sortOrder": 1
+  },
+  {
+    "id": "soft-drinks",
+    "nameEn": "Soft Drinks",
+    "nameAr": "المشروبات الغازية",
+    "icon": "🥤",
+    "parentId": "food-beverages",
+    "sortOrder": 1
+  },
+  {
+    "id": "juices",
+    "nameEn": "Juices",
+    "nameAr": "العصائر",
+    "icon": "🧃",
+    "parentId": "food-beverages",
+    "sortOrder": 2
+  },
+  {
+    "id": "bottled-water",
+    "nameEn": "Bottled Water",
+    "nameAr": "المياه المعبأة",
+    "icon": "💧",
+    "parentId": "food-beverages",
+    "sortOrder": 3
+  },
+  {
+    "id": "energy-drinks",
+    "nameEn": "Energy Drinks",
+    "nameAr": "مشروبات الطاقة",
+    "icon": "⚡",
+    "parentId": "food-beverages",
+    "sortOrder": 4
+  },
+  {
+    "id": "coffee-tea",
+    "nameEn": "Coffee & Tea",
+    "nameAr": "القهوة والشاي",
+    "icon": "☕",
+    "parentId": "food-beverages",
+    "sortOrder": 5
+  },
+  {
+    "id": "snacks",
+    "nameEn": "Snacks & Chips",
+    "nameAr": "الوجبات الخفيفة والشيبس",
+    "icon": "🍿",
+    "parentId": "food-beverages",
+    "sortOrder": 6
+  },
+  {
+    "id": "dairy",
+    "nameEn": "Dairy Products",
+    "nameAr": "منتجات الألبان",
+    "icon": "🥛",
+    "parentId": "food-beverages",
+    "sortOrder": 7
+  },
+  {
+    "id": "chocolate-candy",
+    "nameEn": "Chocolate & Candy",
+    "nameAr": "الشوكولاتة والحلويات",
+    "icon": "🍫",
+    "parentId": "food-beverages",
+    "sortOrder": 8
+  },
+  {
+    "id": "cereals",
+    "nameEn": "Cereals & Breakfast",
+    "nameAr": "الحبوب والإفطار",
+    "icon": "🥣",
+    "parentId": "food-beverages",
+    "sortOrder": 9
+  },
+  {
+    "id": "frozen-foods",
+    "nameEn": "Frozen Foods",
+    "nameAr": "الأطعمة المجمدة",
+    "icon": "🧊",
+    "parentId": "food-beverages",
+    "sortOrder": 10
+  },
+  {
+    "id": "condiments",
+    "nameEn": "Condiments & Sauces",
+    "nameAr": "التوابل والصلصات",
+    "icon": "🧴",
+    "parentId": "food-beverages",
+    "sortOrder": 11
+  },
+  {
+    "id": "canned-foods",
+    "nameEn": "Canned Foods",
+    "nameAr": "الأطعمة المعلبة",
+    "icon": "🥫",
+    "parentId": "food-beverages",
+    "sortOrder": 12
+  },
+  {
+    "id": "ice-cream",
+    "nameEn": "Ice Cream",
+    "nameAr": "الآيس كريم",
+    "icon": "🍦",
+    "parentId": "food-beverages",
+    "sortOrder": 13
+  },
+
+  {
+    "id": "baby-products",
+    "nameEn": "Baby Products",
+    "nameAr": "منتجات الأطفال",
+    "icon": "👶",
+    "parentId": null,
+    "sortOrder": 2
+  },
+  {
+    "id": "baby-food",
+    "nameEn": "Baby Food",
+    "nameAr": "طعام الأطفال",
+    "icon": "🍼",
+    "parentId": "baby-products",
+    "sortOrder": 1
+  },
+  {
+    "id": "baby-care",
+    "nameEn": "Baby Care",
+    "nameAr": "العناية بالطفل",
+    "icon": "🧒",
+    "parentId": "baby-products",
+    "sortOrder": 2
+  },
+  {
+    "id": "diapers",
+    "nameEn": "Diapers",
+    "nameAr": "الحفاضات",
+    "icon": "🩲",
+    "parentId": "baby-products",
+    "sortOrder": 3
+  },
+
+  {
+    "id": "personal-care",
+    "nameEn": "Personal Care",
+    "nameAr": "العناية الشخصية",
+    "icon": "🧴",
+    "parentId": null,
+    "sortOrder": 3
+  },
+  {
+    "id": "skincare",
+    "nameEn": "Skincare",
+    "nameAr": "العناية بالبشرة",
+    "icon": "🧖",
+    "parentId": "personal-care",
+    "sortOrder": 1
+  },
+  {
+    "id": "haircare",
+    "nameEn": "Haircare",
+    "nameAr": "العناية بالشعر",
+    "icon": "💇",
+    "parentId": "personal-care",
+    "sortOrder": 2
+  },
+  {
+    "id": "oral-care",
+    "nameEn": "Oral Care",
+    "nameAr": "العناية بالفم",
+    "icon": "🦷",
+    "parentId": "personal-care",
+    "sortOrder": 3
+  },
+  {
+    "id": "cosmetics",
+    "nameEn": "Cosmetics & Makeup",
+    "nameAr": "مستحضرات التجميل",
+    "icon": "💄",
+    "parentId": "personal-care",
+    "sortOrder": 4
+  },
+  {
+    "id": "fragrances",
+    "nameEn": "Fragrances & Perfumes",
+    "nameAr": "العطور",
+    "icon": "🌸",
+    "parentId": "personal-care",
+    "sortOrder": 5
+  },
+  {
+    "id": "hygiene",
+    "nameEn": "Personal Hygiene",
+    "nameAr": "النظافة الشخصية",
+    "icon": "🧼",
+    "parentId": "personal-care",
+    "sortOrder": 6
+  },
+  {
+    "id": "shaving",
+    "nameEn": "Shaving Products",
+    "nameAr": "منتجات الحلاقة",
+    "icon": "🪒",
+    "parentId": "personal-care",
+    "sortOrder": 7
+  },
+
+  {
+    "id": "home-products",
+    "nameEn": "Home Products",
+    "nameAr": "منتجات المنزل",
+    "icon": "🏠",
+    "parentId": null,
+    "sortOrder": 4
+  },
+  {
+    "id": "cleaning",
+    "nameEn": "Cleaning Products",
+    "nameAr": "منتجات التنظيف",
+    "icon": "🧹",
+    "parentId": "home-products",
+    "sortOrder": 1
+  },
+  {
+    "id": "laundry",
+    "nameEn": "Laundry Products",
+    "nameAr": "منتجات الغسيل",
+    "icon": "🧺",
+    "parentId": "home-products",
+    "sortOrder": 2
+  },
+  {
+    "id": "home-care",
+    "nameEn": "Home Care",
+    "nameAr": "العناية بالمنزل",
+    "icon": "🏡",
+    "parentId": "home-products",
+    "sortOrder": 3
+  },
+  {
+    "id": "paper-products",
+    "nameEn": "Paper Products",
+    "nameAr": "المنتجات الورقية",
+    "icon": "🧻",
+    "parentId": "home-products",
+    "sortOrder": 4
+  },
+
+  {
+    "id": "technology",
+    "nameEn": "Technology",
+    "nameAr": "التكنولوجيا",
+    "icon": "💻",
+    "parentId": null,
+    "sortOrder": 5
+  },
+  {
+    "id": "phones-tablets",
+    "nameEn": "Phones & Tablets",
+    "nameAr": "الهواتف والأجهزة اللوحية",
+    "icon": "📱",
+    "parentId": "technology",
+    "sortOrder": 1
+  },
+  {
+    "id": "computers",
+    "nameEn": "Computers & Laptops",
+    "nameAr": "الحواسيب والأجهزة المحمولة",
+    "icon": "🖥️",
+    "parentId": "technology",
+    "sortOrder": 2
+  },
+  {
+    "id": "software",
+    "nameEn": "Software",
+    "nameAr": "البرمجيات",
+    "icon": "💿",
+    "parentId": "technology",
+    "sortOrder": 3
+  },
+  {
+    "id": "gaming",
+    "nameEn": "Gaming",
+    "nameAr": "الألعاب الإلكترونية",
+    "icon": "🎮",
+    "parentId": "technology",
+    "sortOrder": 4
+  },
+  {
+    "id": "streaming",
+    "nameEn": "Streaming Services",
+    "nameAr": "خدمات البث",
+    "icon": "📺",
+    "parentId": "technology",
+    "sortOrder": 5
+  },
+  {
+    "id": "social-media",
+    "nameEn": "Social Media",
+    "nameAr": "وسائل التواصل الاجتماعي",
+    "icon": "📲",
+    "parentId": "technology",
+    "sortOrder": 6
+  },
+  {
+    "id": "cloud-services",
+    "nameEn": "Cloud Services",
+    "nameAr": "الخدمات السحابية",
+    "icon": "☁️",
+    "parentId": "technology",
+    "sortOrder": 7
+  },
+  {
+    "id": "ecommerce",
+    "nameEn": "E-commerce",
+    "nameAr": "التجارة الإلكترونية",
+    "icon": "🛒",
+    "parentId": "technology",
+    "sortOrder": 8
+  },
+
+  {
+    "id": "fashion",
+    "nameEn": "Fashion & Apparel",
+    "nameAr": "الأزياء والملابس",
+    "icon": "👗",
+    "parentId": null,
+    "sortOrder": 6
+  },
+  {
+    "id": "clothing",
+    "nameEn": "Clothing",
+    "nameAr": "الملابس",
+    "icon": "👕",
+    "parentId": "fashion",
+    "sortOrder": 1
+  },
+  {
+    "id": "footwear",
+    "nameEn": "Footwear",
+    "nameAr": "الأحذية",
+    "icon": "👟",
+    "parentId": "fashion",
+    "sortOrder": 2
+  },
+  {
+    "id": "accessories",
+    "nameEn": "Accessories",
+    "nameAr": "الإكسسوارات",
+    "icon": "👜",
+    "parentId": "fashion",
+    "sortOrder": 3
+  },
+  {
+    "id": "sportswear",
+    "nameEn": "Sportswear",
+    "nameAr": "الملابس الرياضية",
+    "icon": "🏃",
+    "parentId": "fashion",
+    "sortOrder": 4
+  },
+  {
+    "id": "luxury",
+    "nameEn": "Luxury Brands",
+    "nameAr": "العلامات الفاخرة",
+    "icon": "💎",
+    "parentId": "fashion",
+    "sortOrder": 5
+  },
+  {
+    "id": "watches-jewelry",
+    "nameEn": "Watches & Jewelry",
+    "nameAr": "الساعات والمجوهرات",
+    "icon": "⌚",
+    "parentId": "fashion",
+    "sortOrder": 6
+  },
+
+  {
+    "id": "services",
+    "nameEn": "Services",
+    "nameAr": "الخدمات",
+    "icon": "🏢",
+    "parentId": null,
+    "sortOrder": 7
+  },
+  {
+    "id": "fast-food",
+    "nameEn": "Fast Food",
+    "nameAr": "الوجبات السريعة",
+    "icon": "🍔",
+    "parentId": "services",
+    "sortOrder": 1
+  },
+  {
+    "id": "restaurants",
+    "nameEn": "Restaurants",
+    "nameAr": "المطاعم",
+    "icon": "🍽️",
+    "parentId": "services",
+    "sortOrder": 2
+  },
+  {
+    "id": "cafes",
+    "nameEn": "Cafes & Coffee Shops",
+    "nameAr": "المقاهي",
+    "icon": "☕",
+    "parentId": "services",
+    "sortOrder": 3
+  },
+  {
+    "id": "hotels",
+    "nameEn": "Hotels & Hospitality",
+    "nameAr": "الفنادق والضيافة",
+    "icon": "🏨",
+    "parentId": "services",
+    "sortOrder": 4
+  },
+  {
+    "id": "delivery",
+    "nameEn": "Delivery Services",
+    "nameAr": "خدمات التوصيل",
+    "icon": "📦",
+    "parentId": "services",
+    "sortOrder": 5
+  },
+  {
+    "id": "ride-sharing",
+    "nameEn": "Ride-sharing",
+    "nameAr": "خدمات التوصيل بالسيارات",
+    "icon": "🚗",
+    "parentId": "services",
+    "sortOrder": 6
+  },
+  {
+    "id": "finance",
+    "nameEn": "Financial Services",
+    "nameAr": "الخدمات المالية",
+    "icon": "🏦",
+    "parentId": "services",
+    "sortOrder": 7
+  },
+  {
+    "id": "insurance",
+    "nameEn": "Insurance",
+    "nameAr": "التأمين",
+    "icon": "🛡️",
+    "parentId": "services",
+    "sortOrder": 8
+  },
+  {
+    "id": "telecom",
+    "nameEn": "Telecommunications",
+    "nameAr": "الاتصالات",
+    "icon": "📡",
+    "parentId": "services",
+    "sortOrder": 9
+  },
+
+  {
+    "id": "health-pharma",
+    "nameEn": "Health & Pharma",
+    "nameAr": "الصحة والأدوية",
+    "icon": "💊",
+    "parentId": null,
+    "sortOrder": 8
+  },
+  {
+    "id": "pharmaceuticals",
+    "nameEn": "Pharmaceuticals",
+    "nameAr": "الأدوية",
+    "icon": "💉",
+    "parentId": "health-pharma",
+    "sortOrder": 1
+  },
+  {
+    "id": "vitamins",
+    "nameEn": "Vitamins & Supplements",
+    "nameAr": "الفيتامينات والمكملات",
+    "icon": "🧪",
+    "parentId": "health-pharma",
+    "sortOrder": 2
+  },
+  {
+    "id": "medical-devices",
+    "nameEn": "Medical Devices",
+    "nameAr": "الأجهزة الطبية",
+    "icon": "🩺",
+    "parentId": "health-pharma",
+    "sortOrder": 3
+  },
+
+  {
+    "id": "other",
+    "nameEn": "Other",
+    "nameAr": "أخرى",
+    "icon": "📦",
+    "parentId": null,
+    "sortOrder": 9
+  },
+  {
+    "id": "automotive",
+    "nameEn": "Automotive",
+    "nameAr": "السيارات",
+    "icon": "🚙",
+    "parentId": "other",
+    "sortOrder": 1
+  },
+  {
+    "id": "pet-products",
+    "nameEn": "Pet Products",
+    "nameAr": "منتجات الحيوانات الأليفة",
+    "icon": "🐾",
+    "parentId": "other",
+    "sortOrder": 2
+  },
+  {
+    "id": "toys",
+    "nameEn": "Toys & Games",
+    "nameAr": "الألعاب",
+    "icon": "🧸",
+    "parentId": "other",
+    "sortOrder": 3
+  },
+  {
+    "id": "office-supplies",
+    "nameEn": "Office Supplies",
+    "nameAr": "اللوازم المكتبية",
+    "icon": "📎",
+    "parentId": "other",
+    "sortOrder": 4
+  },
+  {
+    "id": "electronics",
+    "nameEn": "Electronics",
+    "nameAr": "الإلكترونيات",
+    "icon": "🔌",
+    "parentId": "other",
+    "sortOrder": 5
+  },
+  {
+    "id": "home-appliances",
+    "nameEn": "Home Appliances",
+    "nameAr": "الأجهزة المنزلية",
+    "icon": "🔧",
+    "parentId": "other",
+    "sortOrder": 6
+  }
+]
+

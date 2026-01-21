@@ -1,0 +1,517 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ==================== ENUMS ====================
+
+enum UserRole {
+  GUEST
+  USER
+  TRUSTED_CONTRIBUTOR
+  MODERATOR
+  ADMIN
+}
+
+enum VerdictLabel {
+  AVOID
+  CAUTION
+  UNKNOWN
+  PREFERRED
+}
+
+enum ConfidenceLevel {
+  HIGH
+  MEDIUM
+  LOW
+}
+
+enum EntityStatus {
+  VERIFIED
+  UNDER_REVIEW
+  DISPUTED
+  OUTDATED
+}
+
+enum SubmissionStatus {
+  PENDING
+  NEEDS_INFO
+  APPROVED
+  REJECTED
+  MERGED
+}
+
+enum VoteType {
+  SUPPORT
+  NEEDS_EVIDENCE
+  DISAGREE
+}
+
+enum IssueType {
+  HUMAN_RIGHTS
+  ENVIRONMENTAL
+  LABOR
+  FUNDING
+  OCCUPATION
+  OTHER
+}
+
+// ==================== USER & AUTH ====================
+
+model User {
+  id              String    @id @default(cuid())
+  email           String    @unique
+  passwordHash    String
+  displayName     String
+  displayNameAr   String?
+  avatar          String?
+  city            String?
+  language        String    @default("ar")
+  role            UserRole  @default(USER)
+  reputationLevel Int       @default(0)
+  scoreTotal      Int       @default(0)
+  isActive        Boolean   @default(true)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  // Relations
+  scoreLedger          ScoreLedgerEntry[]
+  submissions          Submission[]
+  votes                Vote[]
+  storeConfirmations   StoreAvailability[]
+  badges               UserBadge[]
+  scanHistory          ScanHistory[]
+  reports              Report[]
+  communitySuggestions CommunitySuggestion[]
+  suggestionLikes      SuggestionLike[]
+
+  @@map("users")
+}
+
+model ScoreLedgerEntry {
+  id          String   @id @default(cuid())
+  userId      String
+  points      Int
+  reason      String
+  referenceId String?  // ID of related entity (submission, confirmation, etc.)
+  createdAt   DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("score_ledger")
+}
+
+model UserBadge {
+  id        String   @id @default(cuid())
+  userId    String
+  badgeId   String
+  earnedAt  DateTime @default(now())
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  badge Badge @relation(fields: [badgeId], references: [id])
+
+  @@unique([userId, badgeId])
+  @@map("user_badges")
+}
+
+model Badge {
+  id           String   @id @default(cuid())
+  code         String   @unique
+  nameEn       String
+  nameAr       String
+  descriptionEn String
+  descriptionAr String
+  icon         String
+  requirement  String   // JSON string describing unlock conditions
+  createdAt    DateTime @default(now())
+
+  users UserBadge[]
+
+  @@map("badges")
+}
+
+// ==================== COMPANIES & BRANDS ====================
+
+model Company {
+  id              String          @id @default(cuid())
+  nameEn          String
+  nameAr          String?
+  aliases         String[]        // Alternative spellings
+  country         String?
+  logoUrl         String?
+  websiteUrl      String?
+  description     String?
+  descriptionAr   String?
+  status          EntityStatus    @default(UNDER_REVIEW)
+  confidence      ConfidenceLevel @default(LOW)
+  verdictLabel    VerdictLabel    @default(UNKNOWN)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  // Self-relation for parent companies
+  parentId        String?
+  parent          Company?        @relation("CompanyHierarchy", fields: [parentId], references: [id])
+  subsidiaries    Company[]       @relation("CompanyHierarchy")
+
+  // Relations
+  brands          Brand[]
+  claims          CompanyClaim[]
+  changelog       CompanyChangelog[]
+
+  @@map("companies")
+}
+
+model CompanyChangelog {
+  id          String   @id @default(cuid())
+  companyId   String
+  field       String
+  oldValue    String?
+  newValue    String?
+  changedBy   String?  // User ID or "system"
+  reason      String?
+  createdAt   DateTime @default(now())
+
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@map("company_changelog")
+}
+
+model Brand {
+  id          String   @id @default(cuid())
+  nameEn      String
+  nameAr      String?
+  aliases     String[]
+  logoUrl     String?
+  companyId   String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  company  Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  products Product[]
+  changelog BrandChangelog[]
+
+  @@map("brands")
+}
+
+model BrandChangelog {
+  id         String   @id @default(cuid())
+  brandId    String
+  field      String
+  oldValue   String?
+  newValue   String?
+  changedBy  String?
+  reason     String?
+  createdAt  DateTime @default(now())
+
+  brand Brand @relation(fields: [brandId], references: [id], onDelete: Cascade)
+
+  @@map("brand_changelog")
+}
+
+// ==================== PRODUCTS ====================
+
+model Category {
+  id          String    @id @default(cuid())
+  nameEn      String
+  nameAr      String
+  icon        String?
+  parentId    String?
+  sortOrder   Int       @default(0)
+  createdAt   DateTime  @default(now())
+
+  parent   Category?  @relation("CategoryHierarchy", fields: [parentId], references: [id])
+  children Category[] @relation("CategoryHierarchy")
+  products Product[]
+
+  @@map("categories")
+}
+
+model Product {
+  id              String          @id @default(cuid())
+  barcode         String?         @unique
+  nameEn          String
+  nameAr          String?
+  aliases         String[]
+  description     String?
+  descriptionAr   String?
+  imageUrl        String?
+  images          String[]
+  brandId         String
+  categoryId      String?
+  verdictLabel    VerdictLabel    @default(UNKNOWN)
+  status          EntityStatus    @default(UNDER_REVIEW)
+  confidence      ConfidenceLevel @default(LOW)
+  lastReviewedAt  DateTime?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  brand           Brand           @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  category        Category?       @relation(fields: [categoryId], references: [id])
+  claims          ProductClaim[]
+  alternatives    Alternative[]   @relation("ProductAlternatives")
+  alternativeFor  Alternative[]   @relation("AlternativeProducts")
+  changelog       ProductChangelog[]
+  scanHistory     ScanHistory[]
+  reports         Report[]
+
+  @@map("products")
+}
+
+model ProductChangelog {
+  id         String   @id @default(cuid())
+  productId  String
+  field      String
+  oldValue   String?
+  newValue   String?
+  changedBy  String?
+  reason     String?
+  createdAt  DateTime @default(now())
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("product_changelog")
+}
+
+// ==================== CLAIMS & EVIDENCE ====================
+
+model Claim {
+  id              String          @id @default(cuid())
+  titleEn         String
+  titleAr         String?
+  descriptionEn   String
+  descriptionAr   String?
+  issueType       IssueType
+  status          EntityStatus    @default(UNDER_REVIEW)
+  confidence      ConfidenceLevel @default(LOW)
+  moderatorNotes  String?
+  lastUpdatedAt   DateTime        @default(now())
+  createdAt       DateTime        @default(now())
+
+  evidenceSources EvidenceSource[]
+  productClaims   ProductClaim[]
+  companyClaims   CompanyClaim[]
+
+  @@map("claims")
+}
+
+model ProductClaim {
+  id        String @id @default(cuid())
+  productId String
+  claimId   String
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  claim   Claim   @relation(fields: [claimId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, claimId])
+  @@map("product_claims")
+}
+
+model CompanyClaim {
+  id        String @id @default(cuid())
+  companyId String
+  claimId   String
+
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  claim   Claim   @relation(fields: [claimId], references: [id], onDelete: Cascade)
+
+  @@unique([companyId, claimId])
+  @@map("company_claims")
+}
+
+model EvidenceSource {
+  id            String    @id @default(cuid())
+  claimId       String
+  url           String
+  title         String
+  publisher     String?
+  publishedDate DateTime?
+  addedByUserId String?
+  createdAt     DateTime  @default(now())
+
+  claim Claim @relation(fields: [claimId], references: [id], onDelete: Cascade)
+
+  @@map("evidence_sources")
+}
+
+// ==================== ALTERNATIVES ====================
+
+model Alternative {
+  id                String   @id @default(cuid())
+  productId         String   // The boycotted product
+  alternativeId     String   // The alternative product
+  isExactAlternative Boolean @default(false)
+  notes             String?
+  notesAr           String?
+  createdAt         DateTime @default(now())
+
+  product     Product @relation("ProductAlternatives", fields: [productId], references: [id], onDelete: Cascade)
+  alternative Product @relation("AlternativeProducts", fields: [alternativeId], references: [id], onDelete: Cascade)
+  storeAvailability StoreAvailability[]
+
+  @@unique([productId, alternativeId])
+  @@map("alternatives")
+}
+
+// ==================== STORES ====================
+
+model Store {
+  id           String   @id @default(cuid())
+  name         String
+  nameAr       String?
+  city         String
+  area         String?  // Neighborhood/district
+  address      String?
+  addressAr    String?
+  latitude     Float?
+  longitude    Float?
+  phone        String?
+  openingHours String?  // JSON string with hours
+  tags         String[] // supermarket, pharmacy, etc.
+  isVerified   Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  availability StoreAvailability[]
+
+  @@map("stores")
+}
+
+model StoreAvailability {
+  id              String   @id @default(cuid())
+  storeId         String
+  alternativeId   String
+  isAvailable     Boolean  @default(true)
+  priceMin        Float?
+  priceMax        Float?
+  currency        String   @default("LYD")
+  confirmedById   String?
+  trustWeight     Float    @default(1.0)
+  createdAt       DateTime @default(now())
+
+  store       Store       @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  alternative Alternative @relation(fields: [alternativeId], references: [id], onDelete: Cascade)
+  confirmedBy User?       @relation(fields: [confirmedById], references: [id])
+
+  @@map("store_availability")
+}
+
+// ==================== COMMUNITY SUGGESTIONS ====================
+
+model CommunitySuggestion {
+  id          String   @id @default(cuid())
+  userId      String
+  textAr      String
+  companyName String?
+  createdAt   DateTime @default(now())
+
+  user  User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  likes SuggestionLike[]
+
+  @@map("community_suggestions")
+}
+
+model SuggestionLike {
+  id           String   @id @default(cuid())
+  suggestionId String
+  userId       String
+  createdAt    DateTime @default(now())
+
+  suggestion CommunitySuggestion @relation(fields: [suggestionId], references: [id], onDelete: Cascade)
+  user       User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([suggestionId, userId])
+  @@map("suggestion_likes")
+}
+
+// ==================== COMMUNITY SUBMISSIONS ====================
+
+model Submission {
+  id                  String           @id @default(cuid())
+  submitterId         String
+  targetType          String           // product, company, brand
+  targetId            String?          // Existing entity ID if updating
+  proposedData        String           // JSON with proposed changes
+  evidenceSources     String[]         // URLs
+  proposedAlternatives String?         // JSON array
+  proposedStores      String?          // JSON array
+  status              SubmissionStatus @default(PENDING)
+  moderatorNotes      String?
+  decisionReason      String?
+  createdAt           DateTime         @default(now())
+  updatedAt           DateTime         @updatedAt
+
+  submitter User   @relation(fields: [submitterId], references: [id], onDelete: Cascade)
+  votes     Vote[]
+
+  @@map("submissions")
+}
+
+model Vote {
+  id           String   @id @default(cuid())
+  submissionId String
+  voterId      String
+  voteType     VoteType
+  note         String?
+  createdAt    DateTime @default(now())
+
+  submission Submission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  voter      User       @relation(fields: [voterId], references: [id], onDelete: Cascade)
+
+  @@unique([submissionId, voterId])
+  @@map("votes")
+}
+
+// ==================== USER ACTIVITY ====================
+
+model ScanHistory {
+  id        String   @id @default(cuid())
+  userId    String?
+  productId String
+  sessionId String?  // For anonymous users
+  createdAt DateTime @default(now())
+
+  user    User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("scan_history")
+}
+
+// ==================== CAMPAIGNS ====================
+
+model Campaign {
+  id              String   @id @default(cuid())
+  nameEn          String
+  nameAr          String
+  descriptionEn   String?
+  descriptionAr   String?
+  isActive        Boolean  @default(true)
+  isDefault       Boolean  @default(false)
+  scoringWeights  String?  // JSON with severity/confidence/substitutability/essentiality
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("campaigns")
+}
+
+
+
+model Report {
+  id        String   @id @default(cuid())
+  productId String?
+  name      String?
+  company   String?
+  reason    String
+  sourceUrl String?
+  userId   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  product Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+  user   User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@map("reports")
+}
